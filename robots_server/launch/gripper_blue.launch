@@ -1,0 +1,7 @@
+<launch>
+
+<!-- <node name="Gripper_blue_control"  pkg="robots_server" type="gripper_blue.py" output="screen" />     -->
+
+<node name="gripper_blue_motion"  pkg="robots_server" type="gripper_blue_motion.py" output="screen" />    
+
+</launch>

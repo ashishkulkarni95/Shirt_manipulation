@@ -1,0 +1,22 @@
+<launch>
+
+    <arg name="grasp_rob2_ip"/>
+    <arg name="grasp_rob2_state_port"/>
+    <arg name="grasp_rob2_motion_port"/>
+	<arg name="grasp_rob2_motion_syncer_port"/>
+    <arg name="toggle_grippers_during_regrasp"/>
+
+    <!-- <node name="Grasping_Robot_2_State" pkg="robots_server" type="grasping_robot2_state_node" 
+    	args="$(arg grasp_rob2_ip)
+			$(arg grasp_rob2_state_port)"/> -->
+    
+	<node name="Grasping_Robot_2_Motion" pkg="robots_server" type="grasping_robot2_motion_node" output="screen"
+		args="$(arg grasp_rob2_ip)
+			$(arg grasp_rob2_motion_port)
+			$(arg toggle_grippers_during_regrasp)"/>
+	
+	<node name="Grasping_Robot_2_Motion_Syncer" pkg="robots_server" type="grasping_robot2_motion_syncer_node" output="screen"
+		args="$(arg grasp_rob2_ip)
+			$(arg grasp_rob2_motion_syncer_port)"/>
+   
+</launch>

@@ -1,0 +1,5 @@
+<launch>
+
+    <node name="Gripper_Control" pkg="robots_server" type="gripper_control.py"/>
+    
+</launch>

@@ -1,0 +1,59 @@
+<launch>
+
+    <!-- launch grippers -->
+    <!-- <include file="$(find robots_server)/launch/gripper_control.launch"/> -->
+
+	<!-- ROBOTS' IP ADDRESS -->
+    
+    <!-- Uncomment draping ip for final trials -->
+    <arg name="drape_rob_ip" value="192.168.10.122"/>
+    <arg name="grasp_rob1_ip" value="192.168.10.116"/>
+    <arg name="grasp_rob2_ip" value="192.168.10.118"/>
+
+    <!-- Static joint publisher port Number -->    
+    <arg name="drape_rob_state_port" value="30114"/>
+    <arg name="grasp_rob1_state_port" value="30116"/>
+    <arg name="grasp_rob2_state_port" value="30118"/>
+    
+	<!-- Motion publisher port Number -->
+    
+    <arg name="drape_rob_motion_port" value="30014"/>
+    <arg name="grasp_rob1_motion_port" value="30016"/>
+    <arg name="grasp_rob1_motion_syncer_port" value="30017"/>
+    <arg name="grasp_rob2_motion_syncer_port" value="30019"/>
+    <arg name="grasp_rob2_motion_port" value="30018"/>
+
+    <arg name="toggle_grippers_during_regrasp" value="yes"/>
+    <arg name="include_epson_rob" value="no"/>
+
+    <include file="$(find robots_server)/launch/drape_rob_server.launch">
+    	<arg name="drape_rob_ip" value="$(arg drape_rob_ip)"/>
+    	<arg name="drape_rob_state_port" value="$(arg drape_rob_state_port)"/>
+    	<arg name="drape_rob_motion_port" value="$(arg drape_rob_motion_port)"/>
+	</include>
+    
+    <include file="$(find robots_server)/launch/grasp_rob1_server.launch">
+    	<arg name="grasp_rob1_ip" value="$(arg grasp_rob1_ip)"/>
+    	<arg name="grasp_rob1_state_port" value="$(arg grasp_rob1_state_port)"/>
+    	<arg name="grasp_rob1_motion_port" value="$(arg grasp_rob1_motion_port)"/>
+        <arg name="grasp_rob1_motion_syncer_port" value="$(arg grasp_rob1_motion_syncer_port)"/>
+        <arg name="toggle_grippers_during_regrasp" value="$(arg toggle_grippers_during_regrasp)"/>
+	</include>
+
+    <include file="$(find robots_server)/launch/grasp_rob2_server.launch">
+    	<arg name="grasp_rob2_ip" value="$(arg grasp_rob2_ip)"/>
+    	<arg name="grasp_rob2_state_port" value="$(arg grasp_rob2_state_port)"/>
+    	<arg name="grasp_rob2_motion_port" value="$(arg grasp_rob2_motion_port)"/>
+        <arg name="grasp_rob2_motion_syncer_port" value="$(arg grasp_rob2_motion_syncer_port)"/>
+        <arg name="toggle_grippers_during_regrasp" value="$(arg toggle_grippers_during_regrasp)"/>
+	</include>
+
+    <!-- <include file="$(find robots_server)/launch/epson_s5_server.launch"/> -->
+
+    <!-- Gripper control -->
+
+    <include file="$(find robots_server)/launch/gripper_blue.launch" />
+    
+    <include file="$(find robots_server)/launch/gripper_green.launch" />
+    
+</launch>

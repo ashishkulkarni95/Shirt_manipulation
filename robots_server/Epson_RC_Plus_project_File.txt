@@ -1,0 +1,67 @@
+'global variables
+Integer comm_port
+String comm_port$
+String send_str$
+String rcv_str$
+Integer num
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Function main
+Motor On
+Power High
+Accel 10, 10				'DO NOT TOUCH
+Speed 3						'Incrementally chnage this
+'ports declaration
+'201 for 192.168.10.33 , port is 20833
+'202 for 192.168.10.14 , port is 20814
+'203 for 192.168.10.11 , port is 20811
+'204 for 192.168.10.8 , port is 20808
+comm_port = 202				' depending upon the pc being used, change the port number
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Call establish_comm()
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Integer total_pts, counter
+total_pts = 4000			'some huge number to add more number of points
+For counter = 1 To total_pts Step 1
+	Call receive_data()
+	If rcv_str$ = "close" Then
+		send_str$ = "done"
+		Call send_data()
+		Exit For
+	EndIf
+	Call do_motion()
+	send_str$ = "done"
+	Call send_data()
+Next counter
+Print "program ended"
+Motor Off
+Fend
+Function establish_comm
+'Establish communication
+OpenNet #comm_port As Client
+WaitNet #comm_port
+Print "Connection Established"
+Fend
+Function receive_data
+Input #comm_port, rcv_str$
+Fend
+Function send_data
+Print #comm_port, send_str$
+Fend
+Function do_motion
+'add points here
+If rcv_str$ = "home_pos" Then
+	Go home_pos
+EndIf
+If rcv_str$ = "pt1" Then
+	Go pt1
+EndIf
+If rcv_str$ = "pt2" Then
+	Go pt2
+EndIf
+If rcv_str$ = "pt3" Then
+	Go pt3
+EndIf
+If rcv_str$ = "pt4" Then
+	Go pt4
+EndIf
+Fend

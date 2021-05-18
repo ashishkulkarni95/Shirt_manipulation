@@ -1,0 +1,15 @@
+<launch>
+
+    <arg name="drape_rob_ip"/>
+    <arg name="drape_rob_state_port"/>
+    <arg name="drape_rob_motion_port"/>
+
+    <node name="Draping_Robot_State" pkg="robots_server" type="draping_robot_state_node" output="screen"
+    	args="$(arg drape_rob_ip)
+			$(arg drape_rob_state_port)"/>
+    
+	<node name="Draping_Robot_Motion" pkg="robots_server" type="draping_robot_motion_node" output="screen"
+		args="$(arg drape_rob_ip)
+			$(arg drape_rob_motion_port)"/>
+   
+</launch>

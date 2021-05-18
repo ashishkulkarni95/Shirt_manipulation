@@ -1,0 +1,52 @@
+<launch>
+
+<!--Begin Yaskawa SIA10F Robot-->
+    <group ns="yas_rob">
+        	<arg name="robot_ip" value="192.168.10.199" doc="IP of controller" />
+            <arg name="controller" value="fs100" doc="Series of the controller (dx100, dx200, fs100 or yrc1000)" />
+
+            <param name="tf_prefix" value="yas_rob" />
+
+            <rosparam command="load" file="$(find motoman_sia10f_support)/config/joint_names_sia10f.yaml" />
+
+            <include file="$(find motoman_driver)/launch/robot_state_$(arg controller).launch">
+		    <arg name="robot_ip"   value="$(arg robot_ip)" />
+	        </include>
+
+            <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+            
+
+	        <include file="$(find motoman_sia10f_support)/launch/load_sia10f.launch" />
+            <node pkg="tf" type="static_transform_publisher" name="yas_to_world" args="0 0 0 0 0 0 world yas_rob/base_link 100" />
+
+            
+    </group>
+
+<!--Begin ABB IRB120 Robot-->
+    <group ns="abb_rob">
+        <arg name="robot_ip" value="192.168.10.12" doc="IP of the controller" />
+        <arg name="J23_coupled" default="false" doc="If true, compensate for J2-J3 parallel linkage" />
+
+        <param name="tf_prefix" value="abb_rob" />
+
+        <rosparam command="load" file="$(find abb_irb120_support)/config/joint_names_irb120_3_58.yaml" />
+
+        <include file="$(find abb_driver)/launch/robot_interface.launch">
+        <arg name="robot_ip"    value="$(arg robot_ip)" />
+        <arg name="J23_coupled" value="$(arg J23_coupled)" />
+        </include>
+
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+        <include file="$(find abb_irb120_support)/launch/load_irb120_3_58.launch" />
+        <node pkg="tf" type="static_transform_publisher" name="abb_to_world" args="1.146 -0.045 -0.013 3.1415 0 0 world abb_rob/base_link 100" />
+
+        <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find industrial_robot_client)/config/robot_state_visualize.rviz" required="true" /> -->
+
+    </group>
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find simulator)/rvizconfig/bothrobots_state_visualize.rviz" required="true" />
+
+    <include file="$(find robots_server)/launch/gripper_blue.launch" />
+    <include file="$(find robots_server)/launch/gripper_green.launch" />
+
+</launch>
