@@ -1,0 +1,3 @@
+<launch>
+    <node name="abb_robot_motion" pkg="abb_robot_motion" type="abb_robot_motion" output="screen"/>
+</launch>
